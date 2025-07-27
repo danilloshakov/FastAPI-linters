@@ -52,7 +52,8 @@ async def add_recipe(recipe: schemas.RecipeIn):
 )
 async def get_all_recipes():
     async with Session() as session:
-        res = await session.execute(select(Recipes).order_by(Recipes.views.desc()))
+        order_stmt = Recipes.views.desc()
+        res = await session.execute(select(Recipes).order_by(order_stmt))
     return [
         {"title": r.title, "views": r.views, "cooking_time": r.cooking_time}
         for r in res.scalars().all()
@@ -68,7 +69,8 @@ async def get_all_recipes():
 )
 async def get_description_recipe(recipe_id: int):
     async with Session() as session:
-        res = await session.execute(select(Recipes).where(Recipes.id == recipe_id))
+        where_stmt = Recipes.id == recipe_id
+        res = await session.execute(select(Recipes).where(where_stmt))
         recipe = res.scalars().one_or_none()
 
         if not recipe:
