@@ -1,6 +1,7 @@
 from typing import Annotated
+
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
-from sqlalchemy.orm import declarative_base, mapped_column, Mapped, relationship
+from sqlalchemy.orm import Mapped, declarative_base, mapped_column
 
 engine = create_async_engine("sqlite+aiosqlite:///recipes.db")
 Session = async_sessionmaker(bind=engine, expire_on_commit=False)
